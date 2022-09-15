@@ -1,0 +1,20 @@
+<html>
+<title>GitLab Users</title>
+<body>
+<h1>GitLab Users</h1>
+<table>
+<thead>
+<th>username</th>
+<th>email</th>
+</thead>
+<tbody>
+%{ for user in users ~}
+<tr>
+<td>${user.username}</td>
+<td>${user.email}</td>
+</tr>
+%{ endfor ~}
+</tbody>
+</table>
+</body>
+</html>
