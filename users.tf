@@ -6,5 +6,6 @@ locals {
 }
 
 data "gitlab_users" "users" {
-  order_by = "name"
+  order_by = var.users_order_by
+  sort     = var.users_sort
 }
