@@ -4,11 +4,16 @@ variable "gitlab_token" {
   sensitive   = true
 }
 
-variable "gitlab_base_url" {
-  description = "the gitlab_base_url for the terraform-provider-gitlab"
+variable "gitlab_url" {
+  description = "the gitlab url"
   type        = string
 }
 
+variable "gitlab_api_v4_path" {
+  description = "the path for the GitLab api"
+  type        = string
+  default     = "/api/v4/"
+}
 variable "template_files_path" {
   description = "the path of the template files"
   type        = string
