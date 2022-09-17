@@ -14,6 +14,7 @@ variable "gitlab_api_v4_path" {
   type        = string
   default     = "/api/v4/"
 }
+
 variable "template_files_path" {
   description = "the path of the template files"
   type        = string
