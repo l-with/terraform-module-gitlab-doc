@@ -1,0 +1,65 @@
+<html>
+<head>
+<meta charset="UTF-8">
+<link href="https://unpkg.com/tabulator-tables/dist/css/tabulator.min.css" rel="stylesheet">
+<script type="text/javascript" src="https://unpkg.com/tabulator-tables/dist/js/tabulator.min.js"></script>
+<link href="https://unpkg.com/tabulator-tables/dist/css/tabulator_${tabulator_theme}.min.css" rel="stylesheet">
+<style>
+.tabulator, h1 {
+    font-family: ${html_font_family};
+}
+</style>
+</head>
+<title>GitLab Users</title>
+<body>
+<h1>GitLab Users</h1>
+<div id="gitlab-users"></div>
+<script>
+    var tabledata = [
+%{ for user in users ~}
+        {
+            name:               "${user.name}",
+            username:           "${user.username}",
+            email:              "${user.email}",
+            organization:       "${user.organization}",
+            state:              "${user.state}",
+            id:                 "${user.id}",
+            namespace_id:       "${user.namespace_id}",
+            two_factor_enabled: "${user.two_factor_enabled}",
+            is_admin:           "${user.is_admin}",
+            external:           "${user.external}",
+            extern_uid:         "${user.extern_uid}",
+            can_create_group:   "${user.can_create_group}",
+            projects_limit:     "${user.projects_limit}",
+            provider:           "${user.provider}",
+            created_at:         "${user.created_at}",
+            current_sign_in_at: "${user.current_sign_in_at}",
+            last_sign_in_at:    "${user.last_sign_in_at}",
+        },
+%{ endfor ~}
+    ];
+    var table = new Tabulator("#gitlab-users", {
+        data: tabledata,
+        columns: [
+            { title:"Name",               field:"name"                },
+            { title:"Username",           field:"username"            },
+            { title:"E-mail",             field:"email"               },
+            { title:"Organization",       field:"organization"        },
+            { title:"State",              field:"state"               },
+            { title:"Id",                 field:"id",                 hozAlign:"right", headerVertical:"true" },
+            { title:"Namespace Id",       field:"namespace_id",       hozAlign:"right", headerVertical:"true" },
+            { title:"TFA",                field:"two_factor_enabled",                   headerVertical:"true" },
+            { title:"Admin",              field:"is_admin",                             headerVertical:"true" },
+            { title:"External User",      field:"external",                             headerVertical:"true" },
+            { title:"External UID",       field:"extern_uid",                           headerVertical:"true" },
+            { title:"Can create group",   field:"can_create_group",                     headerVertical:"true" },
+            { title:"Projects limit",     field:"projects_limit",     hozAlign:"right", headerVertical:"true" },
+            { title:"Provider",           field:"provider",                             headerVertical:"true" },
+            { title:"Member since",       field:"created_at",                           headerVertical:"true" },
+            { title:"Current sign-in at", field:"current_sign_in_at",                   headerVertical:"true" },
+            { title:"Last sign-in at",    field:"last_sign_in_at",                      headerVertical:"true" },
+        ]
+    });
+</script>
+</body>
+</html>
