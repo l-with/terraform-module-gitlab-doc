@@ -13,54 +13,113 @@
 <title>GitLab Users</title>
 <body>
 <h1>GitLab Users</h1>
+<div class="table-controls">
+  <select id="filter-field">
+    <option></option>
+    <option value="name" selected>Name</option>
+    <option value="username">Username</option>
+    <option value="email">E-mail</option>
+  </select>
+
+  <select id="filter-type">
+    <option value="=">=</option>
+    <option value="<"><</option>
+    <option value="<="><=</option>
+    <option value=">">></option>
+    <option value=">=">>=</option>
+    <option value="!=">!=</option>
+    <option value="like" selected>like</option>
+  </select>
+
+  <input id="filter-value" type="text" placeholder="value to filter">
+
+  <button id="filter-clear">Clear Filter</button>
+</div>
+
 <div id="gitlab-users"></div>
 <script>
-    var tabledata = [
+var tabledata = [
 %{ for user in users ~}
-        {
-            name:               "${user.name}",
-            username:           "${user.username}",
-            email:              "${user.email}",
-            organization:       "${user.organization}",
-            state:              "${user.state}",
-            id:                 "${user.id}",
-            namespace_id:       "${user.namespace_id}",
-            two_factor_enabled: "${user.two_factor_enabled}",
-            is_admin:           "${user.is_admin}",
-            external:           "${user.external}",
-            extern_uid:         "${user.extern_uid}",
-            can_create_group:   "${user.can_create_group}",
-            projects_limit:     "${user.projects_limit}",
-            provider:           "${user.provider}",
-            created_at:         "${user.created_at}",
-            current_sign_in_at: "${user.current_sign_in_at}",
-            last_sign_in_at:    "${user.last_sign_in_at}",
-        },
+    {
+        name:               "${user.name}",
+        username:           "${user.username}",
+        email:              "${user.email}",
+        organization:       "${user.organization}",
+        state:              "${user.state}",
+        id:                 "${user.id}",
+        namespace_id:       "${user.namespace_id}",
+        two_factor_enabled: "${user.two_factor_enabled}",
+        is_admin:           "${user.is_admin}",
+        external:           "${user.external}",
+        extern_uid:         "${user.extern_uid}",
+        can_create_group:   "${user.can_create_group}",
+        projects_limit:     "${user.projects_limit}",
+        provider:           "${user.provider}",
+        created_at:         "${user.created_at}",
+        current_sign_in_at: "${user.current_sign_in_at}",
+        last_sign_in_at:    "${user.last_sign_in_at}",
+    },
 %{ endfor ~}
-    ];
-    var table = new Tabulator("#gitlab-users", {
-        data: tabledata,
-        columns: [
-            { title:"Name",               field:"name"                },
-            { title:"Username",           field:"username"            },
-            { title:"E-mail",             field:"email"               },
-            { title:"Organization",       field:"organization"        },
-            { title:"State",              field:"state"               },
-            { title:"Id",                 field:"id",                 hozAlign:"right", headerVertical:"true" },
-            { title:"Namespace Id",       field:"namespace_id",       hozAlign:"right", headerVertical:"true" },
-            { title:"TFA",                field:"two_factor_enabled",                   headerVertical:"true" },
-            { title:"Admin",              field:"is_admin",                             headerVertical:"true" },
-            { title:"External User",      field:"external",                             headerVertical:"true" },
-            { title:"External UID",       field:"extern_uid",                           headerVertical:"true" },
-            { title:"Can create group",   field:"can_create_group",                     headerVertical:"true" },
-            { title:"Projects limit",     field:"projects_limit",     hozAlign:"right", headerVertical:"true" },
-            { title:"Provider",           field:"provider",                             headerVertical:"true" },
-            { title:"Member since",       field:"created_at",                           headerVertical:"true" },
-            { title:"Current sign-in at", field:"current_sign_in_at",                   headerVertical:"true" },
-            { title:"Last sign-in at",    field:"last_sign_in_at",                      headerVertical:"true" },
-        ],
-        layout: "fitDataTable",
-    });
+];
+var table = new Tabulator("#gitlab-users", {
+    data: tabledata,
+    columns: [
+        { title:"Name",               field:"name"                },
+        { title:"Username",           field:"username"            },
+        { title:"E-mail",             field:"email"               },
+        { title:"Organization",       field:"organization"        },
+        { title:"State",              field:"state"               },
+        { title:"Id",                 field:"id",                 hozAlign:"right", headerVertical:"true" },
+        { title:"Namespace Id",       field:"namespace_id",       hozAlign:"right", headerVertical:"true" },
+        { title:"TFA",                field:"two_factor_enabled",                   headerVertical:"true" },
+        { title:"Admin",              field:"is_admin",                             headerVertical:"true" },
+        { title:"External User",      field:"external",                             headerVertical:"true" },
+        { title:"External UID",       field:"extern_uid",                           headerVertical:"true" },
+        { title:"Can create group",   field:"can_create_group",                     headerVertical:"true" },
+        { title:"Projects limit",     field:"projects_limit",     hozAlign:"right", headerVertical:"true" },
+        { title:"Provider",           field:"provider",                             headerVertical:"true" },
+        { title:"Member since",       field:"created_at",                           headerVertical:"true" },
+        { title:"Current sign-in at", field:"current_sign_in_at",                   headerVertical:"true" },
+        { title:"Last sign-in at",    field:"last_sign_in_at",                      headerVertical:"true" },
+    ],
+    layout: "fitDataTable",
+});
+
+//Define variables for input elements
+var fieldEl = document.getElementById("filter-field");
+var typeEl = document.getElementById("filter-type");
+var valueEl = document.getElementById("filter-value");
+
+//Trigger setFilter function with correct parameters
+function updateFilter()
+{
+  var filterVal = fieldEl.options[fieldEl.selectedIndex].value;
+  var typeVal = typeEl.options[typeEl.selectedIndex].value;
+
+  var filter = filterVal;
+
+  typeEl.disabled = false;
+  valueEl.disabled = false;
+
+  if (filterVal) {
+    table.setFilter(filter, typeVal, valueEl.value);
+  }
+}
+
+//Update filters on value change
+document.getElementById("filter-field").addEventListener("change", updateFilter);
+document.getElementById("filter-type").addEventListener("change", updateFilter);
+document.getElementById("filter-value").addEventListener("keyup", updateFilter);
+
+//Clear filters on "Clear Filters" button click
+document.getElementById("filter-clear").addEventListener("click", function(){
+  fieldEl.value = "";
+  typeEl.value = "=";
+  valueEl.value = "";
+
+  table.clearFilter();
+});
+
 </script>
 </body>
 </html>
