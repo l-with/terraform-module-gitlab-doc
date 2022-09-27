@@ -20,6 +20,7 @@
   <select id="filter-field">
     <option></option>
     <option value="name_with_namespace">Namespace / Name</option>
+    <option value="id">Id</option>
     <option value="visibility">Visibility</option>
     <option value="visibility_public">Visibility 'public'</option>
     <option value="visibility_internal">Visibility 'internal'</option>
@@ -49,6 +50,7 @@ var tabledata = [
 %{ for project in projects ~}
     {
         name_with_namespace:                 "${project.name_with_namespace}",
+        id:                                  "${project.id}",
         visibility:                          "${project.visibility}",
         default_branch:                      "${project.default_branch}",
         packages_enabled:                    "${project.packages_enabled}",
@@ -70,6 +72,7 @@ var table = new Tabulator("#gitlab-projects", {
     data: tabledata,
     columns: [
         { title: "Namespace / Name",           field:"name_with_namespace"         },
+        { title: "Id",                         field:"id"                          },
         { title: "Visibility",                 field:"visibility",                 headerVertical:"true" },
         { title: "Default branch",             field:"default_branch",             headerVertical:"true" },
         { title: "Packages enabled",           field:"packages_enabled",           headerVertical:"true" },
