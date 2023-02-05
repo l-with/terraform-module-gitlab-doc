@@ -1,0 +1,43 @@
+<html>
+<head>
+<meta charset="UTF-8">
+<link href="https://unpkg.com/tabulator-tables/dist/css/tabulator.min.css" rel="stylesheet">
+<script type="text/javascript" src="https://unpkg.com/tabulator-tables/dist/js/tabulator.min.js"></script>
+<link href="https://unpkg.com/tabulator-tables/dist/css/tabulator_${tabulator_theme}.min.css" rel="stylesheet">
+<style>
+.tabulator, h1 {
+    font-family: ${html_font_family};
+}
+</style>
+</head>
+<div id="gitlab-groups"></div>
+<script>
+    var tabledata = [
+    %{ for group in groups ~}
+    {
+            full_path:                     "${group.full_path}",
+            description:                   "${group.description}",
+            visibility_level:              "${group.visibility_level}",
+            request_access_enabled:        "${group.request_access_enabled}",
+            branch_protection_text:        "${branch_protection_text[group.default_branch_protection]}",
+            prevent_forking_outside_group: "${group.prevent_forking_outside_group}",
+        },
+    %{ endfor ~}
+    ];
+    var table = new Tabulator("#gitlab-groups", {
+        data: tabledata,
+        columns: [
+            { title:"Full path",                     field:"full_path"                      },
+            { title:"Description",                   field:"description"                    },
+            { title:"Visibility",                    field:"visibility_level",              headerVertical:"true" },
+            { title:"Request access enabled",        field:"request_access_enabled",        headerVertical:"true"},
+            { title:"Default branch protection",     field:"branch_protection_text",        headerVertical:"true" },
+            { title:"Prevent forking outside group", field:"prevent_forking_outside_group", headerVertical:"true" },
+        ],
+        initialSort: [
+            { column: "full_path", dir: "${groups_sort}" },
+        ]
+    });
+</script>
+</body>
+</html>
