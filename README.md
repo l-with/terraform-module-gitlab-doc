@@ -28,6 +28,7 @@ No modules.
 
 | Name | Type |
 |------|------|
+| [gitlab_groups.groups](https://registry.terraform.io/providers/gitlabhq/gitlab/latest/docs/data-sources/groups) | data source |
 | [gitlab_project_membership.project_membership](https://registry.terraform.io/providers/gitlabhq/gitlab/latest/docs/data-sources/project_membership) | data source |
 | [gitlab_projects.projects](https://registry.terraform.io/providers/gitlabhq/gitlab/latest/docs/data-sources/projects) | data source |
 | [gitlab_users.users](https://registry.terraform.io/providers/gitlabhq/gitlab/latest/docs/data-sources/users) | data source |
@@ -39,6 +40,7 @@ No modules.
 | <a name="input_gitlab_api_v4_path"></a> [gitlab\_api\_v4\_path](#input\_gitlab\_api\_v4\_path) | the path for the GitLab api | `string` | `"/api/v4/"` | no |
 | <a name="input_gitlab_token"></a> [gitlab\_token](#input\_gitlab\_token) | the token for the  terraform-provider-gitlab | `string` | n/a | yes |
 | <a name="input_gitlab_url"></a> [gitlab\_url](#input\_gitlab\_url) | the gitlab url | `string` | n/a | yes |
+| <a name="input_groups_sort"></a> [groups\_sort](#input\_groups\_sort) | the value for sort for full\_path | `string` | `"asc"` | no |
 | <a name="input_html_font_family"></a> [html\_font\_family](#input\_html\_font\_family) | the font family for html | `string` | `"sans-serif"` | no |
 | <a name="input_projects_sort"></a> [projects\_sort](#input\_projects\_sort) | the value for sort for name\_with\_namespace | `string` | `"asc"` | no |
 | <a name="input_tabulator_theme"></a> [tabulator\_theme](#input\_tabulator\_theme) | the tabulator theme | `string` | `"semantic-ui"` | no |
@@ -51,6 +53,7 @@ No modules.
 
 | Name | Description |
 |------|-------------|
+| <a name="output_groups_html"></a> [groups\_html](#output\_groups\_html) | n/a |
 | <a name="output_projects_html"></a> [projects\_html](#output\_projects\_html) | n/a |
 | <a name="output_users_html"></a> [users\_html](#output\_users\_html) | n/a |
 <!-- END_TF_DOCS -->
